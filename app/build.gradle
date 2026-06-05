@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
     id 'kotlin-kapt'
 }
 
@@ -17,18 +18,29 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++17"
-                abiFilters "arm64-v8a"
+        // Only build native code when the SNPE headers are present (after resolveDependencies.sh)
+        def snpeHeadersExist = new File(projectDir, 'src/main/cpp/inc/zdl').exists()
+        if (snpeHeadersExist) {
+            externalNativeBuild {
+                cmake {
+                    cppFlags "-std=c++17"
+                    abiFilters "arm64-v8a"
+                }
             }
         }
+
+        // Inject build flag so Kotlin knows whether native inference is available
+        buildConfigField "boolean", "NATIVE_INFERENCE_ENABLED", "${snpeHeadersExist}"
     }
 
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.22.1"
+    // Only wire up CMake when headers exist
+    def snpeHeadersExist = new File(projectDir, 'src/main/cpp/inc/zdl').exists()
+    if (snpeHeadersExist) {
+        externalNativeBuild {
+            cmake {
+                path "src/main/cpp/CMakeLists.txt"
+                version "3.22.1"
+            }
         }
     }
 
@@ -46,10 +58,7 @@ android {
     buildFeatures {
         compose true
         viewBinding true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.14'
+        buildConfig true
     }
 
     compileOptions {
@@ -72,14 +81,17 @@ android {
 }
 
 dependencies {
-    // SNPE (local AAR — copied by resolveDependencies.sh)
+    // SNPE (local AAR — copied by resolveDependencies.sh; optional for no-model testing)
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'])
 
-    // OpenCV (local SDK module — added via settings.gradle)
-    implementation project(':openCVLibrary413')
+    // OpenCV (local SDK module — only present after resolveDependencies.sh)
+    def openCVDir = new File(rootDir, 'sdk/OpenCV-android-sdk/sdk')
+    if (openCVDir.exists()) {
+        implementation project(':openCVLibrary413')
+    }
 
     // Jetpack Compose BOM
-    def composeBom = platform('androidx.compose:compose-bom:2024.06.00')
+    def composeBom = platform('androidx.compose:compose-bom:2024.12.01')
     implementation composeBom
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.material3:material3'
@@ -130,6 +142,9 @@ dependencies {
     // Core KTX
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    // Material Icons Extended (FitnessCenter, EmojiEvents, CalendarMonth, Scale, etc.)
+    implementation 'androidx.compose.material:material-icons-extended'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

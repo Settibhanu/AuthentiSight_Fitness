@@ -81,7 +81,7 @@ fun ProfileScreen(navController: NavController) {
                             onValueChange = { weight = it.filter { c -> c.isDigit() || c == '.' } },
                             label = { Text("Weight (kg)") },
                             modifier = Modifier.fillMaxWidth(),
-                            leadingIcon = { Icon(Icons.Default.MonitorWeight, contentDescription = null) }
+                            leadingIcon = { Icon(Icons.Default.Scale, contentDescription = null) }
                         )
                     }
                 }

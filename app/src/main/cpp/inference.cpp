@@ -27,7 +27,7 @@ static constexpr int   NUM_KP         = 17;
 
 // ── JNI: buildNetworkBB ──────────────────────────────────────────────────────
 extern "C" JNIEXPORT jboolean JNICALL
-Java_com_fitness_snapapp_ai_qairt_SNPEHelper_buildNetworkBB(
+Java_com_fitness_snapapp_ai_qairt_SNPEHelper_buildNetworkBBNative(
     JNIEnv* env, jobject /*thiz*/,
     jbyteArray dlcBuf, jint size, jchar runtime)
 {
@@ -45,7 +45,7 @@ Java_com_fitness_snapapp_ai_qairt_SNPEHelper_buildNetworkBB(
 
 // ── JNI: buildNetworkPose ────────────────────────────────────────────────────
 extern "C" JNIEXPORT jboolean JNICALL
-Java_com_fitness_snapapp_ai_qairt_SNPEHelper_buildNetworkPose(
+Java_com_fitness_snapapp_ai_qairt_SNPEHelper_buildNetworkPoseNative(
     JNIEnv* env, jobject /*thiz*/,
     jbyteArray dlcBuf, jint size, jchar runtime)
 {
@@ -115,7 +115,7 @@ static std::vector<BoundingBox> decodeYoloOutput(
 
 // ── JNI: runInference ────────────────────────────────────────────────────────
 extern "C" JNIEXPORT jfloatArray JNICALL
-Java_com_fitness_snapapp_ai_qairt_SNPEHelper_runInference(
+Java_com_fitness_snapapp_ai_qairt_SNPEHelper_runInferenceNative(
     JNIEnv* env, jobject /*thiz*/,
     jbyteArray rgbaBytes, jint width, jint height)
 {
@@ -286,7 +286,7 @@ Java_com_fitness_snapapp_ai_qairt_SNPEHelper_runInference(
 
 // ── JNI: destroy ─────────────────────────────────────────────────────────────
 extern "C" JNIEXPORT void JNICALL
-Java_com_fitness_snapapp_ai_qairt_SNPEHelper_destroy(JNIEnv* /*env*/, jobject /*thiz*/)
+Java_com_fitness_snapapp_ai_qairt_SNPEHelper_destroyNative(JNIEnv* /*env*/, jobject /*thiz*/)
 {
     g_snpe_bb.reset();
     g_snpe_pose.reset();

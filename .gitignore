@@ -1,0 +1,73 @@
+# ── Build outputs ─────────────────────────────────────────────────────────────
+build/
+app/build/
+*.apk
+*.aab
+*.ap_
+
+# ── Gradle ────────────────────────────────────────────────────────────────────
+.gradle/
+gradle/wrapper/gradle-wrapper.jar
+local.properties
+
+# ── Android Studio / IntelliJ ─────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ── Native build artifacts ────────────────────────────────────────────────────
+app/src/main/cpp/inc/zdl/          # copied by resolveDependencies.sh
+app/.cxx/
+*.o
+*.so
+*.a
+*.d
+
+# ── SNPE / QAIRT dependencies (copied by resolveDependencies.sh) ──────────────
+app/libs/snpe-release.aar
+app/src/main/jniLibs/arm64-v8a/libSNPE.so
+app/src/main/jniLibs/arm64-v8a/libSnpeHtp*.so
+# Keep the placeholder so the directories exist in git
+!app/libs/.gitkeep
+!app/src/main/jniLibs/arm64-v8a/.gitkeep
+
+# ── AI model assets (generated / downloaded — NOT source-controlled) ──────────
+app/src/main/assets/Quant_yoloNas_s_320.dlc
+app/src/main/assets/hrnet_axis_int8.dlc
+
+# ── Avatar GLBs (binary assets — add via LFS or distribute separately) ────────
+app/src/main/assets/avatars/*.glb
+
+# ── OpenCV SDK (downloaded by resolveDependencies.sh) ────────────────────────
+sdk/
+
+# ── Python / Jupyter ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+
+# ── Docker artifacts ──────────────────────────────────────────────────────────
+# (Don't ignore the dockerfile itself — only ignore generated/cached artefacts)
+*.tar
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+Thumbs.db
+.DS_Store
+*.swp
+*.swo
+*~
+
+# ── Secrets / credentials ─────────────────────────────────────────────────────
+*.keystore
+*.jks
+keystore.properties
+google-services.json
