@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "SnapFitness"
+include ':app'
+
+// OpenCV local SDK module (unpacked by resolveDependencies.sh)
+def openCVDir = new File(rootDir, 'sdk/OpenCV-android-sdk/sdk')
+if (openCVDir.exists()) {
+    include ':openCVLibrary413'
+    project(':openCVLibrary413').projectDir = openCVDir
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SnapFitness</string>
+    <string name="permission_camera_rationale">Camera access is required for real-time pose tracking.</string>
+    <string name="permission_audio_rationale">Microphone access is required for voice commands.</string>
+    <string name="error_model_load">Failed to load AI model. Please reinstall the app.</string>
+    <string name="error_camera">Camera unavailable. Please check permissions.</string>
+    <string name="workout_started">Workout started!</string>
+    <string name="workout_finished">Great work! Session saved.</string>
+</resources>
